@@ -1,0 +1,449 @@
+aws cloudwatch describe-alarms --query 'MetricAlarms[*].{arn:AlarmArn, name:AlarmName, alarmactions:AlarmActions}'
+
+
+
+user=root
+password=root@123
+
+mysql -u ${user} -p${password} -e "CREATE DATABASE test;"
+
+mysql -u ${user} -p${password} -e "CREATE USER 'test1'@'localhost' IDENTIFIED BY 'test@123';"
+
+mysql -u ${user} -p${password} -e "GRANT SELECT ON test.* TO 'test1'@'localhost';"
+
+mysql -u ${user} -p${password} -e "FLUSH PRIVILEGES;"
+
+
+def image_list
+    node{
+        stage('Preparing env') {
+        withCredentials([usernamePassword(credentialsId: 'db-creds', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+        
+           image_list = sh(script:'mysql -h 172.50.3.197 -u apoorva -p${PASSWORD} -e "Show databases"', returnStdout: true).trim()
+        
+        }
+        }
+    }
+
+
+
+db.createUser(
+  {
+    user: "mongoadmin1",
+    pwd: "changeme",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+db.createUser(
+  {
+    user: "mongoAdmin",
+    pwd: "changeMe",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ]
+  }
+)
+
+
+
+
+mysql -h 172.50.3.197 -u root -pTest@123 --local-infile brokerage_master_staging -e "LOAD DATA LOCAL INFILE '/home/yogesh/Downloads/rsa_pincode.csv'  INTO TABLE rsa_pincode  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'"
+
+
+#!/bin/bash
+# Bash script
+sleep 20 ;
+appname = b2c-health-lms-config
+aws  ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 845742683201.dkr.ecr.ap-south-1.amazonaws.com
+docker system prune -a -f
+aws s3 cp s3://gibpl-code-deploy/$appname-prod/$appname.zip /home/deployer/
+unzip -o /home/deployer/$appname.zip -d /home/deployer/$appname-prod
+#Start application
+cd /home/deployer/$appname-prod && sh restart.sh
+#Start Nginx
+service nginx start
+
+
+PORT=$(netstat -tulpn | grep 8080 | awk '{print $4}' | sed 's/.*://')
+
+
+
+check nagios configuration:-> /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+ 
+remove server alerting then->  cd /usr/local/nagios/etc/servers/ 
+
+remove endpoint then edit -> cd /usr/local/nagios/etc/objects/ && vim insurance-websites.cfg      && /usr/local/nagios/etc/servers/insurance-websites.cfg
+
+
+https://stackoverflow.com/questions/48118125/kubernetes-rbac-role-verbs-to-exec-to-pod
+
+Oauth-proxy on EC2:-
+vim /etc/oauth2-proxy/oauth2-proxy.cfg
+cd /etc/systemd/system
+cd /usr/local/bin/oauth2-proxy
+
+https://oauth2-proxy.github.io/oauth2-proxy/docs/
+sudo nano /usr/local/nagios/etc/cgi.cfg  =>  use_authentication=1
+Httpd config:-
+
+sudo yum install httpd mod_ssl mod_auth_openidc
+sudo ln -s /usr/lib64/httpd/modules/mod_auth_openidc.so
+
+
+
+
+
+mongodump --host 172.50.3.197  --authenticationDatabase admin --username mongo-admin --password mongoAmerica123 -d brokerage_staging  --collection collection_name --out /data/deployer/backup/dump
+
+mongorestore  --host 172.50.3.197 -u mongo-admin -p mongoAmerica123 --authenticationDatabase admin -d brokerage_uat --collection collection_name /data/deployer/backup/dump
+
+
+
+
+https://severalnines.com/blog/tips-and-trick-using-audit-logging-mariadb/#:~:text=Log%20Rotation%20Management&text=bytes%20server_audit_file_rotations%3D30-,Or%20set%20it%20dynamically%20in%20the%20runtime%20using%20SET%20GLOBAL,The%20default%20value%20is%209.
+
+
+https://stackoverflow.com/questions/63880017/elasticsearch-docker-flood-stage-disk-watermark-95-exceeded
+
+
+
+
+
+rabbitmq:-
+FROM 845742683201.dkr.ecr.ap-south-1.amazonaws.com/rabbitmq:3.11.13-alpine-arm64
+
+RUN    apk update && apk add curl && curl -L https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez > $RABBITMQ_HOME/plugins/rabbitmq_delayed_message_exchange-3.12.0.ez; \
+    rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange rabbitmq_consistent_hash_exchange rabbitmq_prometheus rabbitmq_shovel rabbitmq_shovel_management
+
+
+
+Mongo Cluster:-
+
+rs.add( { host: "172.50.4.241:27017", priority: 0} )
+
+cfg = rs.conf()
+cfg.members[1].host = "seconday-encryption.insurancedekho.local:27017"
+rs.reconfig(cfg);
+
+
+rs.remove("172.10.7.48:27017")
+
+rs.conf()
+rs.status()
+
+Check Lag command:- rs.printSlaveReplicationInfo()
+
+
+
+GRANT SELECT (`field_name`) ON central_report.`table_name` to `central_report_pi_restricted`;
+
+
+
+
+ /data/mongo/archieve_new/renewal_service_logs    
+
+for mongo6:- crontab -l | grep fraud_mitigation (172.50.3.73)
+
+
+Kill query :-
+select concat('kill( ',id,');') from information_schema.processlist where user='health_crm_new' and DB='health_crm';
+
+
+
+Master slave in mysql
+https://docs.google.com/document/d/1gtqsTfVZV658ooZjIl25VKR1Dd4WrudIUWMFQIfsZbc/edit
+ON Master:
+In my.cnf, do the following and restart mysql
+Path:- vim  /etc/my.cnf.d/server.cnf
+[mysqld]
+server-id=1
+binlog-format   = mixed
+log-bin=mysql-bin
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
+log_output=FILE
+show master status;
+
+
+ON Master:
+In my.cnf, do the following and restart mysql
+
+Path:- vim  /etc/my.cnf.d/server.cnf  (ex:- 172.50.3.76)
+[mysqld]
+server-id=1
+binlog-format   = mixed
+log-bin=mysql-bin
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
+log_output=FILE
+expire_logs_days=3
+
+
+Login in mysql and run following commands
+# create replication user 
+CREATE USER 'replicant_user'@'%' IDENTIFIED BY 'lXzsdaas^pFLgem8@9';
+GRANT REPLICATION SLAVE ON *.* TO 'replicant_user'@'%' ;
+
+# check master poistion
+MariaDB [(none)]> show master status;
+
+Output similar to:
++------------------+-----------+--------------+------------------+
+| File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB |
++------------------+-----------+--------------+------------------+
+| mysql-bin.003230 | 169409255 |              |                  |
++------------------+-----------+--------------+------------------+
+1 row in set (0.00 sec)
+
+IN above output: mysql-bin.003230 is MASTER_LOG_FILE and 169409255 is MASTER_LOG_POS
+
+# create AMI of master machine
+On Slave machine
+In my.cnf, do the following and restart mysql
+
+server-id               = 101
+relay-log               = mysql-relay-bin
+log-slave-updates = 1
+read-only               = 1
+slave-skip-errors               = 1062,1032,1022
+replicate-ignore-db                     = mysql
+
+
+Login in mysql and run following commands
+
+RESET SLAVE ;
+
+# Set position
+CHANGE MASTER TO MASTER_HOST='auroranew.internal-gaadi.net',MASTER_USER='replicant_user',MASTER_PASSWORD='lXzsdaas^pFLgem8@9', MASTER_LOG_FILE='mysql-bin-changelog.003622', MASTER_LOG_POS=37318131;
+
+#in above command, change MASTER_HOST, MASTER_LOG_FILE, MASTER_LOG_POS
+
+
+
+START SLAVE ;
+
+show slave status \G
+# check second_behind master . Should be 0
+        Seconds_Behind_Master: 0
+
+
+
+Error:
+ERROR 1118 (42000) at line 1628: Row size too large (> 8126). Changing some columns to TEXT or BLOB or using ROW_FORMAT=DYNAMIC or ROW_FORMAT=COMPRESSED may help. In current row format, BLOB prefix of 768 bytes is stored inline.
+
+
+
+
+
+CALL mysql.rds_skip_repl_error;
+
+
+
+
+
+
+
+a=25,26,27,!
+
+COUNT=`echo $a | tr -cd , | wc -c`
+
+integer=`echo $a | sed 's/,//g'`
+
+echo $integer
+
+echo $COUNT
+
+if  [[ "$COUNT" -le 4 && ! "$integer" =~  [a-z]  && ! "$integer" =~ ['!@#$%*()-_+'] ]];
+
+then
+
+  echo "ok"
+  user=root
+  password=root@123
+  mysql -u ${user} -p${password} -e "SELECT `lead_id`,`lead_mobile` as `Mobile Number` FROM `gibpl_leads` WHERE `lead_id` IN ( $a );"
+
+else 
+  echo "use limit 5 or use integer"
+
+fi
+
+
+# user=root
+# password=root@123
+
+# mysql -u ${user} -p${password} -e "SELECT `lead_id`,`lead_mobile` as `Mobile Number` FROM `gibpl_leads` WHERE `lead_id` IN ( $a );"
+
+
+
+
+
+user=root
+password=root@123
+
+mysql -u ${user} -p${password} -e "CREATE DATABASE test;"
+
+mysql -u ${user} -p${password} -e "CREATE USER 'test1'@'localhost' IDENTIFIED BY 'test@123';"
+
+mysql -u ${user} -p${password} -e "GRANT SELECT ON test.* TO 'test1'@'localhost';"
+
+mysql -u ${user} -p${password} -e "FLUSH PRIVILEGES;"
+
+
+docker run --add-host host.docker.internal:host-gateway -p 1337:1337 --env-file .env health-lms-configuration:1.0
+
+
+
+
+git remote -v
+
+git pull upsteam-origin master
+
+git remote add upsteam-origin git@bitbucket.org:girnarsoftware/girnarsoft-insurancedekho-infrastructure.git
+
+
+
+vardan6sharma@gmail.com && amiteshs1999@gmail.com
+rUgzc6VgU79kkCC
+
+
+
+docker exec -it -u root  <CONTAINER-ID> /bin/sh
+
+
+
+
+terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/www/html/config/database.php
+          name: config-volume2
+          subPath: database.php
+        - mountPath: /var/www/html/config/config-inc.php
+          name: config-volume3
+          subPath: config-inc.php
+        - mountPath: /etc/apache2/sites-enabled/000-default.conf
+          name: apache-config
+          subPath: 000-default.conf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: stage-pos-partner-portal-database-configmap
+        name: config-volume2
+      - configMap:
+          defaultMode: 420
+          name: stage-pos-partner-portal-config-inc-configmap
+        name: config-volume3
+      - configMap:
+          defaultMode: 420
+          name: stage-pos-partner-portal-apache-config
+        name: apache-config
+
+
+
+helm install --name authproxy \
+    --namespace=ingress \
+    --set config.clientID=<YOUR_CLIENT_ID> \
+    --set config.clientSecret=<YOUR_SECRET> \
+    --set config.cookieSecret=<GENERATED_COOKIE_SECRET> \
+    --set extraArgs.provider=github \
+    --set extraArgs.email-domain="*" \
+    stable/oauth2-proxy
+
+
+
+
+nginx.ingress.kubernetes.io/configuration-snippet: |
+      auth_request_set $token $upstream_http_authorization;
+      proxy_set_header Authorization "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjZZSHdacWVZR3FwVmc3ZmJrX25na25wcVdvcE13V2Q3Zy1fYkxlQlA0T28ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJyZWFkLW9ubHktdXNlci10b2tlbi1rdDhjaCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJyZWFkLW9ubHktdXNlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImVhMDc1NDYwLTQ1M2UtNGExMC1iOGU2LTQ1ZWJkODgyYjMwOSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDpyZWFkLW9ubHktdXNlciJ9.LVkE1smeM1jP9GcA-L44587U68eKyswbF2t5ase4aKvCGCle64Gr0YiDBJwANoFVAQ9b28xlB7zycn9WNRQLxPFKe0DY-jJxun81cMCdVY4Q7epTU-boy0_y16R_HzBMlg2cPLixOrccp0uNx5mncGu63A7oB_Ad1jxGQ_i4flNOxCIFuArzDzGmYz1oMEL0uyMkJit9Jv8L0uMaotljp2KsN3UPStB1Zo_FA9y5KwtPuB4k_AAt8bJBDVXJmZr-pklYBZABwhtGtIpKh_dToRbXHilUaJhMhIBbtrmxqKMTfgEpFVfRDa_4cWOHQYSG1mcg4OlsuLODumV7YiQ_WQ";
+      proxy_pass_header Authorization;
+
+
+
+
+[root@ip-172-50-4-238 ~]# cat /etc/oauth2-proxy/oauth2-proxy.cfg  | grep -v ^# |grep . 
+ http_address = "127.0.0.1:4180"
+ reverse_proxy = true
+ upstreams = [
+     "http://127.0.0.1:9090/"
+ ]
+ email_domains = [
+     "insurancedekho.com"
+ ]
+client_id = "734147629738-u4o40jbngiluj01co3prb4uf45rhiol8.apps.googleusercontent.com"
+client_secret = "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"
+ cookie_name = "_oauth2_proxy"
+ cookie_secret = "20euajsj23#21sau2981nasjai234hah"
+ cookie_expire = "1h"
+ cookie_refresh = "20m"
+ cookie_secure = true
+ cookie_httponly = true
+
+
+
+docker run -it --rm  ubuntu /bin/bash
+
+
+#!/bin/bash
+export KUBECONFIG="/var/lib/jenkins/.kube/gfpl-eks"
+
+if [[ $ENV == "prod"  ]]
+then
+	Namespace="default"
+
+elif [[ $ENV == "uat"  ]]
+then
+    Namespace="uat"
+
+fi
+aws --profile gfpl s3 sync s3://pnl-env-variables/$ENV/$APPNAME $WORKSPACE/
+#mv $WORKSPACE/env.production $WORKSPACE/.env
+echo "command for kube is  => kubectl create configmap $APPNAME-config-files --from-file=$WORKSPACE/  -o yaml --dry-run=client  --validate=false | kubectl replace -f - "	
+
+kubectl create configmap $APPNAME-config-files --from-file=$WORKSPACE/ -o yaml --dry-run=client  --validate=false | kubectl replace -f -
+
+##for testing
+kubectl create configmap $APPNAME-configmap --from-file=$WORKSPACE/ -o yaml --dry-run=client  --validate=false | kubectl replace -f -
+
+echo "command for kube is  => kubectl create configmap $APPNAME-configmap --from-file=$WORKSPACE/env.production -o yaml --dry-run=client  --validate=false | kubectl replace -f - "
+#kubectl create configmap $APPNAME-configmap --from-file=$WORKSPACE/.env  -o yaml --dry-run=client --validate=false | kubectl replace -f -
+
+CONFIGMAP_VALUES=$(<$WORKSPACE/env.production)
+literal=""
+        for i in $CONFIGMAP_VALUES
+                do
+                   #     echo $i
+                        literal="$literal --from-literal $i"
+                done
+
+kubectl create configmap $APPNAME-configmap  $literal -o yaml --dry-run=client | kubectl replace -f -
+        
+kubectl -n ${Namespace} rollout restart deployment ${ENV}-${APPNAME}-srv
+
+
+
+sed -i '/^;.*extension=php_gettext\.dll/s/^;//' /home/yogesh/work/php/dev.php
+
+
+
+
+volumeMounts:
+        - mountPath: /app/config/settingss.js
+          name: config-volume
+          subPath: settings.js
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: uat-middleware-lead-api-configmap-settings
+        name: config-volume
+
+
+
+nginx.ingress.kubernetes.io/whitelist-source-range: 106.221.225.115/32, 14.97.215.138/32,
+      125.22.201.206/32, 14.97.215.139/32, 122.184.148.81/32, 122.184.148.82/32, 125.22.201.206/32,
+      14.97.215.137/32, 14.195.22.42/32, 180.151.87.10/32
+
+
