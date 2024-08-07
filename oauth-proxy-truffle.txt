@@ -1,0 +1,343 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    meta.helm.sh/release-name: dashboard
+    meta.helm.sh/release-namespace: default
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: kubernetes-dashboard-ingress
+  namespace: kubernetes-dashboard
+spec:
+  rules:
+  - host: dashboardstaging.insurancedekho.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+  namespace: kubernetes-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+    spec:
+      containers:
+      - args:
+        - --provider=Google
+        - --email-domain=insurancedekho.com
+        - --http-address=0.0.0.0:4180
+        # Register a new application
+        # https://github.com/settings/applications/new
+        env:
+        - name: OAUTH2_PROXY_CLIENT_ID
+          value: 17803735828-fg2q9hblcj2cm9m33og9rhnoginuopvd.apps.googleusercontent.com
+        - name: OAUTH2_PROXY_CLIENT_SECRET
+          value: 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
+        # docker run -ti --rm python:3-alpine python -c 'import secrets,base64; print(base64.b64encode(base64.b64encode(secrets.token_bytes(16))));'
+        - name: OAUTH2_PROXY_COOKIE_SECRET
+          value: cDRYbmdsNFAyekpxanlRclkyM1ZyZz09
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        name: oauth2-proxy
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+  namespace: kubernetes-dashboard
+spec:
+  ports:
+  - name: http
+    port: 4180
+    protocol: TCP
+    targetPort: 4180
+  selector:
+    k8s-app: oauth2-proxy
+
+
+
+
+
+
+helm install authproxy \
+    --namespace=kubernetes-dashboard \
+    --set config.clientID=17803735828-n2l1gmtq6ssrjhctr4tbjrrovibj38nn.apps.googleusercontent.com \
+    --set config.clientSecret=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 \
+    --set config.cookieSecret=569fsjjjf9023jjjqwefh234l44l1hh1hhawdf2h4 \
+    --set extraArgs.provider=Google \
+    --set extraArgs.email-domain="insurancedekho.com" \
+    stable/oauth2-proxy
+
+
+
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth2-proxy
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: dashboardstaging.insurancedekho.com
+    http:
+      paths:
+      - path: /oauth2
+        pathType: Prefix
+        backend:
+          service:
+            name: authproxy-oauth2-proxy
+            port:
+              number: 80
+
+
+
+
+
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  generation: 1
+  name: kubernetes-dashboard-virtual-service
+  namespace: kubernetes-dashboard
+spec:
+  gateways:
+  - dashboard-gateway
+  hosts:
+  - dashboarddev.insurancedekho.com
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: kubernetes-dashboard
+        port:
+          number: 80
+
+
+
+
+trufflelog
+
+sh """
+/usr/local/bin/trufflehog filesystem --only-verified --no-update $workspace/ > truffle.txt
+if [ `cat truffle.txt | grep verified |wc -l` -gt 0 ]; then
+cat truffle.txt
+truncate -s 0 truffle.txt
+echo "Found Keys in code. Deployment will not proceed" ; exit 1 ;
+else
+cat truffle.txt
+echo "No Keys found in code"
+truncate -s 0 truffle.txt
+fi
+"""
+
+[default]
+aws_access_key_id = AKIAQYLPMN5HHHYPZAW3
+aws_secret_access_key = 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
+output = json
+region = us-east-2
+
+
+
+{
+    "name": "test_keys",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/trufflesecurity/test_keys.git"
+    },
+    "keywords": [
+      "trufflehog"
+    ],
+    "author": "trufflesecurity",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/trufflesecurity/test_keys/issues"
+    },
+    "homepage": "https://github.com/trufflesecurity/test_keys"
+  }
+
+
+
+
+
+ZAP
+
+
+https://www.zaproxy.org/docs/docker/about/
+
+
+
+docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t www.example.com
+
+
+pipeline {
+    agent any
+    
+    parameters {
+        choice(
+            choices: ['Baseline', 'APIS', 'Full'],
+            description: 'Type of scan that is going to perform inside the container',
+            name: 'SCAN_TYPE'
+        )
+
+        text(
+            defaultValue: 'https://autodbstaging.insurancedekho.com\nhttps://apiitmsstaging.insurancedekho.com\nhttps://healthcrmstaging.insurancedekho.com\nhttps://apigatewaystaging.insurancedekho.com\nhttps://posstaging.insurancedekho.com',
+            description: 'Target URLs to scan (one per line)',
+            name: 'TARGETS'
+        )
+
+        booleanParam(
+            defaultValue: true,
+            description: 'Parameter to know if you want to generate a report.',
+            name: 'GENERATE_REPORT'
+        )
+    }
+
+    stages {
+        stage('Pipeline Info') {
+            steps {
+                script {
+                    echo '<-- Parameter Initialization -->'
+                    echo """
+                        The current parameters are:
+                            Scan Type: ${params.SCAN_TYPE}
+                            Targets:
+${params.TARGETS}
+                            Generate report: ${params.GENERATE_REPORT}
+                    """
+                }
+            }
+        }
+
+        stage('Setting up OWASP ZAP docker container') {
+            steps {
+                echo 'Pulling up last OWASP ZAP container --> Start'
+                sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
+                echo 'Pulling up last VMS container --> End'
+                echo 'Starting container --> Start'
+                sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+            }
+        }
+
+        stage('Prepare wrk directory') {
+            when {
+                expression {
+                    params.GENERATE_REPORT
+                }
+            }
+            steps {
+                script {
+                    sh '''
+                        docker exec owasp \
+                        mkdir /zap/wrk
+                    '''
+                }
+            }
+        }
+
+        stage('Scanning targets on OWASP container') {
+            steps {
+                script {
+                    scan_type = "${params.SCAN_TYPE}"
+                    targets = "${params.TARGETS}".readLines()
+                    
+                    targets.each { target ->
+                        def domain = target.replaceAll('https?://', '').replaceAll('/', '').replaceAll('\\.', '').replaceAll('com', '')
+                        
+                        if (scan_type == 'Baseline') {
+                            sh """
+                                docker exec owasp \
+                                zap-baseline.py \
+                                -t $target \
+                                -r report_${domain}.html \
+                                -I
+                            """
+                        } else if (scan_type == 'APIS') {
+                            sh """
+                                docker exec owasp \
+                                zap-api-scan.py \
+                                -t $target \
+                                -f openapi \
+                                -r report_${domain}.html \
+                                -I
+                            """
+                        } else if (scan_type == 'Full') {
+                            sh """
+                                docker exec owasp \
+                                zap-full-scan.py \
+                                -t $target \
+                                -r report_${domain}.html \
+                                -I
+                            """
+                        } else {
+                            echo 'Something went wrong...'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Copy Reports to Workspace') {
+            steps {
+                script {
+                    sh "docker cp owasp:/zap/wrk/ \${WORKSPACE}/"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Removing container'
+            sh '''
+                docker stop owasp
+                docker rm owasp
+            '''
+            //cleanWs()
+        }
+    }
+}
+
+
+
