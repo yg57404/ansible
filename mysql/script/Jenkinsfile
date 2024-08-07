@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    
+    options {
+        timeout(time: 3, unit: 'HOURS') 
+    }     
+    
+        environment{
+        IP='172.50.3.73'
+    }
+    stages {
+     
+   stage('deploy') {
+          /*  input {
+                message "Should we continue?"
+                ok "Yes"
+                submitter 'admin,admin1'
+                }*/
+            steps {
+                 sshagent(['terraform']) {
+                 sh """
+                ssh terraform@$IP "cd /home/terraform/girnarsoft-insurancedekho-infrastructure && git pull origin master " ;
+                ssh terraform@$IP "cd /home/terraform/girnarsoft-insurancedekho-infrastructure/ansible && ansible-playbook  users.yml -i user_inventory" ;
+                 """
+                 }
+
+            }
+        }
+        
+        
+    
+    }
+    
+
+}

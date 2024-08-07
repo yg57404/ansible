@@ -1,0 +1,29 @@
+---
+- hosts: all
+  tasks:  
+  - name: Copy file with owner and permissions
+    ansible.builtin.copy:
+      src: /home/yogesh/ansible/mongodb/run.sh
+      dest: /home/yogesh
+      owner: yogesh
+      group: yogesh
+      mode: '0775'
+  
+  - name: Execute the script
+    command: sh /home/yogesh/run.sh
+  
+  - name: remove file
+    command: rm -rf /home/yogesh/run.sh
+    
+
+
+
+
+
+
+
+# register: command_output
+
+#   - debug:
+#             var: command_output.stdout_lines
+  

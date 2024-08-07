@@ -1,0 +1,29 @@
+---
+- hosts: mongo
+  gather_facts: False
+  vars:
+    master_user: "{{ master_user }}"
+    master_password: "{{ master_password }}"
+    new_user: "{{ new_user }}"
+    new_password: "{{ lookup('ansible.builtin.password', '/dev/null', seed=user) }}"
+    db_name: "{{ db_name }}" 
+    host_ip: "{{ host_ip }}"
+  tasks:  
+  - set_fact:
+      new_password: "{{ new_password }}"
+  - name: Add user
+    mongodb_user:
+      database: "{{ db_name }}"
+      name: "{{ new_user }}"
+      password: "{{ new_password }}"
+      login_host: "{{ host_ip }}"
+      login_port: 27017 #"{{ mongodb_port }}"
+      login_user: "{{ master_user }}"
+      login_password: "{{ master_password }}"
+      state: present
+      roles:
+      - db: "{{ db_name }}"
+        role: read
+  - debug:
+        msg: "Generated password for user {{ new_user }} , is =>  {{ new_password }}"
+  

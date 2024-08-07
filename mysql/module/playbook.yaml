@@ -1,0 +1,22 @@
+--- 
+- hosts: mysql
+  vars:
+    master_user: "{{ master_user }}"
+    master_password: "{{ master_password }}"
+    child_user: "{{ child_user }}"
+    child_password: "{{ lookup('ansible.builtin.password', 'chars=ascii_letters,digits,punctuation') }}"
+    db_name: "{{ db_name }}" 
+    cidr: "{{ cidr }}"
+  
+  tasks:  
+  - name: Create test user for test databases
+    mysql_user:
+      login_user: "{{ master_user }}"
+      login_password: "{{ master_password }}"
+      host: "{{ cidr }}"
+      name: "{{ child_user }}"
+      password: "{{ child_password }}"
+      priv: '{{ db_name }}.*:SELECT'
+      state: present
+  - debug:
+        msg: '{{child_password}}'

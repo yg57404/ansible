@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    
+    options {
+        timeout(time: 3, unit: 'HOURS') 
+    }     
+    
+        environment{
+        IP='172.50.4.25'
+    }
+    stages {
+     
+
+        stage('Mail') {
+            steps {
+sh """
+    echo "Job-Url jenkins-v1.insurancedekho.com/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/console", | ssmtp $Approver_Email
+
+"""
+}
+        }
+        
+
+            
+
+   stage('deploy') {
+            input {
+                message "Should we continue?"
+                ok "Yes"
+                submitter 'leads'
+                }
+
+
+            steps {
+                
+                 sh """
+                 ssh deployer@$IP 'cd /home/deployer/girnarsoft-insurancedekho-infrastructure/ansible/db_user_creation && ansible-playbook -i inventory mongo_user.yaml --extra-vars "master_user=jenkinsmongo master_password=J3nK1nsM0ng0 host_ip=$DB_HOST new_user=$NEW_USER db_name=$DB_NAME"';
+                 ssh deployer@$IP "cat /var/lib/jenkins/mail.txt | (cat - && uuencode /tmp/creds.txt  creds.txt) | /sbin/ssmtp $dev_email";
+                 ssh deployer@$IP "rm -rf /tmp/creds.txt";
+                 """
+            }
+        }
+    
+    }
+}

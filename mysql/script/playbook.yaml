@@ -1,0 +1,31 @@
+---
+- hosts: "{{ variable_host | default('web') }}"
+  vars:
+    username: "{{ user }}"
+    db_name: "{{ db_name }}" 
+    cidr: "{{ cidr }}" 
+
+  tasks:  
+  # - name: Copy file with owner and permissions
+  #   template:
+  #     src: /home/yogesh/ansible/mysql/run.sh
+  #     dest: /opt
+  #     owner: yogesh
+  #     group: yogesh
+  #     mode: '0775'
+  
+  - name: Execute the script
+    command: echo "hello"   #sh /home/yogesh/run.sh
+
+    register: command_output
+
+  - debug:
+            var: command_output.stdout_lines
+  
+  - name: Remove file (delete file)
+    ansible.builtin.file:
+      path: /opt/run.sh
+      state: absent
+  
+
+# ansible-playbook -i inventory playbook.yaml --extra-vars "user=test1  db_name=test cidr=localhost"

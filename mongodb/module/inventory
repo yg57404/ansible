@@ -1,0 +1,2 @@
+[mongo]
+localhost ansible_ssh_pass=123@abc
