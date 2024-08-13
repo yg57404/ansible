@@ -1,0 +1,1094 @@
+
+  
+Automation for following:-
+ mysql 
+ mongo 
+ for leads
+ user create with group 
+ td agent-> invest time for removing dependencies from internet.
+ other thing -> then working on review commnet thenn adding new features in that and took access of particular things
+ and install depencies on local
+ cloudwatch alaram filter
+ 
+
+server1 ansible_host=yogesh@localhost  ansible_ssh_pass=123@abc ansible_sudo_pass=123@abc
+
+ # - name: Define more users with various specific roles
+  #   community.mongodb.mongodb_user:
+  #     database: "{{ db_name }}"
+  #     name: "{{ new_user }}"
+  #     password: '{{new_password}}'
+  #     roles: read
+  #     state: present
+  # - debug:
+  #       msg: '{{new_password}}'
+  
+  
+  db.createUser(
+  {
+    user: "mongoAdmin",
+    pwd: "changeMe",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+
+db.createUser(
+  {
+    user: "mongoadmin1",
+    pwd: "changeme",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+
+
+
+
+db.createUser(
+{ 
+ user: "hello_admin",
+ pwd:  "7TXqfkfpqtw8I9",
+ roles:
+ [
+ { role:"read",db:"test"} 
+ ] } );
+ 
+ 
+db.createUser(
+{ 
+ user: "fs_utility_read",
+ pwd:  "Xqfkfpqtw8I9",
+ roles:
+ [
+ { role:"readWrite",db:"fs_utility_prod"} 
+ ] } ); 
+ 
+ 
+ 
+
+db.createUser(
+  {
+    user: "root",
+    pwd: passwordPrompt(root@123), // or cleartext password
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ]
+  }
+)
+
+
+db.createUser(
+  {
+    user: "mongoAdmin",
+    pwd: "changeMe",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ]
+  }
+)
+
+
+mongo -u test -pA1dJ.8OBu,DVCPO7h9k9 --authenticationDatabase test
+
+
+ansible-playbook -i inventory mongo_user.yaml --extra-vars "master_user=mongoAdmin master_password=changeMe new_user=test db_name=test host_ip=localhost"
+
+raghav.sharma@insurancedekho.com
+raghav_sharm
+
+
+
+
+mongo --host 172.50.3.197 -u health_lms_user -p7TXqfkfpqtw8I9 --	authenticationDatabase health_lms_configuration
+
+
+
+
+
+
+CREATE USER 'health_lms_config'@'%' IDENTIFIED BY 'D6TDNPs8z2'; 
+
+GRANT ALL ON health_lms_configuration.* TO 'health_lms_config'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+mysql -u root -pTest@123 --local-infile scrapping -e "LOAD DATA LOCAL INFILE '/home/yogesh/Downloads/rsa_pincode.csv'  INTO TABLE rsa_pincode  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'"
+
+
+
+check for configuration:- ssh ec2-user@172.50.4.247
+
+
+%s/apipos/healthlmsconfig/g
+
+%s/brokerage_logger/brokerage_non_motor_log/g
+
+
+:%s/php7/php5/g
+
+%s/172.50.4.11/172.50.3.124/g
+%s/gibpl-airflow/gibpl-prod-fraud-mitigation-db-arm64/g
+
+ssh deployer@172.50.4.25 "bash /home/deployer/girnarsoft-insurancedekho-infrastructure/scripts/aws/cpu/cpu1.sh"
+
+
+
+# awk '{printf "%-30s|%-18s|%-30s|%-20s|%-0s%-0s-%0s%0s|%-0s%-0s-%0s%0s\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12}' file.txt
+
+# awk '{printf "%-30s|%-18s|%-30s|%-20s|%-0s%-0s-%0s%20s|%10s%-0s%-0s%0s%0s\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13}' file.txt
+
+
+#####Mmain:- 
+#awk '{printf "%-30s|%-18s|%-30s|%-20s|%-0s%-0s-%0s%20s|%-10s%-0s-%0s%0s%0s\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13}' file1.txt
+
+
+
+
+
+
+
+jenkins access to yuvraj	
+
+
+172.50.4.44
+
+cat <<EOF >>user_inventory1
+[users]
+#staging servers
+${host} ansible_user=ec2-user
+
+[users:vars]
+ansible_ssh_private_key_file=/home/terraform/ec2-create/ansible/server-config/gibpl.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+EOF
+
+
+
+
+
+
+
+*************************************************************----------------------------------------------_********************************************
+Naming convention for application:- itms-dataworks
+jenkins Job run structure:- 
+
+1. ASG create
+2. Deployment-resources
+3. create jenkinsfile for that -> 		update port-number and repo url and change itms-prod in deploy name.
+4. create jenkins job
+5. put env in s3 bucket-> gibpl-environment-variables
+6. create target group and attached with autoscaling group
+
+********************************************************-----------------------------------------------------*********************************************
+
+
+
+
+ssh deployer@172.50.4.25 "bash /home/deployer/Insurance-uptime-report/uptime.sh"
+
+
+
+
+
+Apacahe (latest) logs as read for user read
+nginx (latest)
+mysql or mariadb (10.6 latest)
+mongo (3.4, latest required at leat 3 or4 )
+php (5.6, 5.7 or latest)
+
+update td-agent job with version specific
+
+
+mongoimport --host 172.50.3.197:27017 -u mongo-admin -pmongoAmerica123 --db healthquote-engine --collection health_maxbupa_sub_plans health_maxbupa_sub_plans_new
+
+mongoimport -h 172.50.3.197:27017 -d healthquote-engine -c health_maxbupa_sub_plans -u mongo-admin -p mongoAmerica123 --file health_maxbupa_sub_plans_new
+
+
+Ticket:- 
+
+Add data in staging environment
+
+
+mongoimport -h 172.50.3.197:27017 -d healthuat_quote-engine -c health_maxbupa_sub_plans -u mongo-admin -p mongoAmerica123 --authenticationDatabase=admin --file health_maxbupa_sub_plans_new --jsonArray
+
+automation for uploading dump in db
+
+
+
+
+mongoimport --host 172.50.3.197:27017 -d healthquote-engine -c health_maxbupa_sub_plans -u mongo-admin -p mongoAmerica123 --authenticationDatabase=admin --file new-csv --type csv --headerline
+
+
+
+
+upload dump into mongodb of health
+
+
+
+
+ssh deployer@172.50.4.25 "bash /home/deployer/Insurance-uptime-report/uptime.sh"
+
+
+automation:- 
+access s3 bucket of env file
+
+
+kishit eks domain not accessible
+Re: Write access of Brokerage Master
+
+
+ 
+brokerage-health-quote-middleware-stage
+
+pos-partner-portal-stage
+
+
+
+DROP USER 'digvijay.singh'@'172.50.%';
+SELECT user,host FROM mysql.user;
+
+
+
+
+
+brokerage-wallet-service 
+
+brokerage-wallet-service-stage
+
+Re: Performance testing machine request
+
+
+182.76.124.96/28
+
+
+
+
+
+
+
+ansible-playbook  packages.yml -i packages_inventory -e ansible_ssh_private_key_file='/home/yogesh/Documents/gibpl.pem' -e ansible_user=ec2-user -e Service=apache 
+
+
+
+ansible-playbook  packages.yml -i packages_inventory -e ansible_ssh_private_key_file='/home/deployer/ec2-create/gibpl.pem'  -e ansible_user=ec2-user --extra-vars "Service=$packages_name" 
+
+
+
+
+
+
+CREATE USER 'dataworks_master'@'%' IDENTIFIED BY 'D6TDNPs8z2io'; 
+
+GRANT SELECT, INSERT, UPDATE, CREATE, DELETE ON itms.tbl_dash_offline_motor_reporting_details TO 'dataworks_master'@'%';
+
+GRANT SELECT, INSERT, UPDATE, CREATE, DELETE ON itms.tbl_dash_motor_reporting_details TO 'dataworks_master'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+CREATE USER 'dataworks_read'@'%' IDENTIFIED BY '6QUve29tgT5ujY8'; 
+
+GRANT SELECT ON itms.tbl_ticket_allocated_teams TO 'dataworks_read'@'%';
+
+
+GRANT SELECT ON itms.tbl_dash_offline_motor_reporting_details TO 'dataworks_read'@'%';
+
+GRANT SELECT ON itms.tbl_dash_motor_reporting_details TO 'dataworks_read'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+REVOKE ALL ON itms.tbl_dealer_users FROM  'dataworks_master'@'%';
+
+
+REVOKE ALL ON itms.tbl_dash_offline_motor_reporting_details FROM  'itms_read'@'%';
+
+REVOKE ALL ON itms.tbl_dash_motor_reporting_details FROM  'itms_read'@'%';
+
+
+CREATE USER 'prerit.singh'@'%' IDENTIFIED BY '6QUve29tgTjY8'; 
+
+GRANT SELECT ON central_report.* TO 'prerit.singh'@'%';
+
+FLUSH PRIVILEGES;
+
+
+*************--------------------------------------------------------------------------------****************************************************
+
+for mail db-creds:- 
+
+use devy branch and create variable for mail id
+cat /tmp/creds.txt
+cat /var/lib/jenkins/mail.txt | (cat - && uuencode /tmp/creds.txt  creds.txt) | /sbin/ssmtp -vvvv yogesh.gupta@insurancedekho.com
+rm -rf /tmp/creds.txt
+
+
+*****************************************************************************---------------------------------------------*******************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT * FROM mysql.db INTO OUTFILE '/tmp/Central-report-slave.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+
+
+| Host         | Db                       | User              | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Create_tmp_table_priv | Lock_tables_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Execute_priv | Event_priv | Trigger_priv |
+
+
+
+
+mysql -h girnarinsurance.c8le3siaf5jx.ap-south-1.rds.amazonaws.com -u girnarinsurance -pXArFCilboQ3YGRZ -e "SELECT * FROM mysql.db;" | sed 's/\t/","/g;s/^/"/;s/$/"/;s/\n//g' > itms-msater.csv
+
+
+
+	
+
+
+
+
+
+
+
+aws  ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 845742683201.dkr.ecr.ap-south-1.amazonaws.com
+
+docker system prune -a -f
+
+docker rmi -f b2c-health-lms-config-prod  845742683201.dkr.ecr.ap-south-1.amazonaws.com/b2c-health-lms-config-prod:latest
+
+docker image pull 845742683201.dkr.ecr.ap-south-1.amazonaws.com/b2c-health-lms-config-prod:latest
+
+
+
+docker rm -f b2c-health-lms-config-prod || : && docker run -dp 10000:1337 --restart on-failure --log-driver json-file  --log-opt max-size=100m --health-cmd "" --health-interval 2s --health-retries 2 --health-timeout 10s   --env-file /home/deployer/b2c-health-lms-config-prod/.env.production    --name b2c-health-lms-config-prod 845742683201.dkr.ecr.ap-south-1.amazonaws.com/b2c-health-lms-config-prod:latest
+
+
+
+
+
+
+
+
+
+Project	gibpl-ilms
+Cost-Center	Insurance-Auto Insurance-Shared-Shared
+Team	b2c
+Backup	no
+Cluster	gibpl-ilms
+
+
+
+
+
+aws ec2 create-tags --resources  --tags Key=Backup, Value="no"
+
+
+
+
+
+mysql -h 172.50.3.61 -u root -p --local-infile brokerage_master_staging -e "LOAD DATA LOCAL INFILE '/home/yogesh/Downloads/rsa_pincode.csv'  INTO TABLE rsa_pincode  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'"
+
+
+
+
+
+aws ec2 describe-network-interfaces     --output text     --query 'NetworkInterfaces[?!not_null(Tags[?Key == `Cost-Center`].Value)] | [].[NetworkInterfaceId]'
+
+
+
+
+
+
+mount without restart:- 
+
+blkid
+sudo growpart /dev/nvme0n1p1
+sudo xfs_growfs /
+
+
+aws ec2 describe-instances --query 'Reservations[].Instances[].Tags[?Key == `Brokerage`].Value'
+
+
+aws ec2 describe-instances --output text --query 'Reservations[].Instances[?!not_null(Tags[?Team == `brokerage`].Value)] | [].[InstanceId]'
+
+
+  aws ec2 describe-volumes --output text --query 'Volumes[].Tags[?value == `Brokerage`].Value'
+
+aditya.maurya@insurancedekho.com
+
+
+
+
+db.runCommand({compact: "policy_quotes", force: true})
+
+db.internal_error_log_2022-07-15.drop();
+
+
+
+
+itms-operations
+
+
+automation_mongo_user_access
+automation_mysql_user_access
+automation_jumpbox_access
+
+automation.*.access
+access for groups
+
+
+avinash.jindal 
+
+
+CREATE USER 'avinash.jindal'@'%' IDENTIFIED BY 'mdob08@L!fx!'; 
+
+GRANT ALL ON pms.* TO 'avinash.jindal'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+
+
+feedback
+
+
+
+
+
+
+
+db.createUser(
+{ 
+ user: "fraudmitigationdb_read",
+ pwd:  "Oklfkfpqtw8I9",
+ roles:
+ [
+ { role:"read",db:"fraud_mitigation"} 
+ ] } ); 
+ 
+
+
+
+
+
+
+
+b2c-commonwidgets
+
+
+staging.insurancedekho.com
+
+/common-widgets
+
+
+
+
+devendra.samatia@insurancedekho.com
+
+
+CREATE USER 'devendra.samatia'@'172.50.5.18' IDENTIFIED BY 'Qsdfe9tgT5ujY8';
+
+
+GRANT central_report_pi_restricted TO 'devendra.samatia'@'172.50.5.18';
+
+
+SET DEFAULT ROLE central_report_pi_restricted FOR 'devendra.samatia'@'172.50.5.18';
+
+
+
+CREATE USER 'manan.mahajan'@'%' IDENTIFIED BY '6QUve29tgT5ujY8'; 
+
+GRANT SELECT ON health_crm.* TO 'manan.mahajan'@'%';
+
+
+
+
+vahan scapper
+
+
+
+analytics-autodb-stage
+
+
+
+ITMS V2 - https://apiitmsv2.insurancedekho.com/
+Master uploader - https://masters.insurancedekho.com/
+Core Ops - https://apicoreops.insurancedekho.com/
+ITMS Report - https://itmsreportstaging.insurancedekho.com/
+itms-bff - https://itmsstaging.insurancedekho.com/bff
+inspection  - https://apiitmsstaging.insurancedekho.com/inspection
+
+
+
+apiopsuat.insurancedekho.com
+apiitmsuatv2.insurancedekho.com
+
+apicoreopsuat.insurancedekho.com
+
+
+
+
+CREATE USER 'shivam.arora'@'%' IDENTIFIED BY 'cdfgDNPs8z2io'; 
+
+GRANT SELECT ON support_system.* TO 'shivam.arora'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+
+Retrieve a new application for deployment on Docker. Provide access to the development team. Take responsibility for deploying the ITMS application on EKS.
+When Stagin down help dev team for check in logs etc and sometimes in prod.
+
+Done Automation for  as mentioned below:- 
+Mysql user access
+mongo user access
+Cpu utilization
+IAM report 
+Jumpbox access
+
+Done CI/CD as mentioned below:- 
+nifi (analytics)
+ITMS Application
+other new application from b2c,b2b,brokerage
+
+docker images size reduce
+docker images build time reduce(by using base images)
+
+
+Send mysql and mongo credential on separate mail using  jenkins job
+Integrate Approval request in jenkins job.
+IAM report for automation.
+launch RDS  in private vpc
+Unnecessary ports are not open, and there are too many ports that are not open.
+Scan Docker images vulnerabilities in ECR.
+
+
+
+  kubectl get pods -n kubernetes-dashboard stage-b2c-feedback-srv -o jsonpath="Name: {.metadata.name} Status: {.status.phase}"
+
+nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+
+
+
+
+
+ITMS Report - https://itmsreportstaging.insurancedekho.com/
+
+itmsreportdev
+ITMS V2 - https://apiitmsv2.insurancedekho.com/
+
+communicatoin- communication.insurancedekho.com
+
+itms-bff - https://itmsstaging.insurancedekho.com/bff   ====>  staging elb
+
+inspection - https://apiitmsstaging.insurancedekho.com/inspection
+
+Operational - workflow -  https://apiops.insurancedekho.com/
+
+Itms - apiitms.insurancedekho.com
+
+
+git@bitbucket.org:girnarsoftware/girnarsoft-insurance-itms.git
+
+
+
+
+
+
+
+kubectl -n ${Namespace} rollout status deployment --timeout=120s ${ENV}-${APPNAME}-srv
+
+
+
+
+
+
+CREATE USER 'pratiksha.singh'@'%' IDENTIFIED BY 'RDcf45ob08LfJxTr';
+
+GRANT SELECT ON sfa_master.* TO 'pratiksha.singh'@'%';
+
+GRANT SELECT ON cps_master.* TO 'pratiksha.singh'@'%';
+
+FLUSH PRIVILEGES;
+
+
+
+
+
+
+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
+
+
+
+
+analytics-policy-reader
+
+
+
+
+
+LoadModule auth_openidc_module modules/mod_auth_openidc.so
+
+<VirtualHost *:80>
+  ServerName nagios.insurancedekho.com
+  ServerAlias www.nagios.insurancedekho.com
+  ScriptAlias /nagios/cgi-bin "/usr/local/nagios/sbin"
+  RedirectMatch ^/$ /nagios/
+
+  ErrorLog /var/log/httpd/nagios.insurancedekho.com_error_log
+  CustomLog /var/log/httpd/nagios.insurancedekho.com_access_log combined
+
+  OIDCProviderMetadataURL https://accounts.google.com/.well-known/openid-configuration
+  OIDCClientID 17803735828-1un0vv7jaqgj72e2s2dau9kp4d6thkv6.apps.googleusercontent.com
+  OIDCClientSecret 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
+  OIDCScope "openid email profile"
+  OIDCRedirectURI https://nagios.insurancedekho.com/oauth2/callback
+  OIDCCryptoPassphrase  "PXxxb5YBCqpXLqQ+raV65xedZjmh7Bvbeeus1Wb6dNE="
+  <Location />
+    AuthType openid-connect
+    Require valid-user
+  </Location>
+
+  <Directory "/usr/local/nagios/sbin">
+    Options ExecCGI
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+
+    #AuthName "Nagios Access"
+    #AuthType Basic
+    #AuthUserFile /usr/local/nagios/etc/htpasswd.users
+    #Require valid-user
+  </Directory>
+
+  Alias /nagios "/usr/local/nagios/share/"
+
+  <Directory "/usr/local/nagios/share">
+    Options None
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+
+   # AuthName "Nagios Access"
+   # AuthType Basic
+   # AuthUserFile /usr/local/nagios/etc/htpasswd.users
+   # Require valid-user
+
+    <IfModule dir_module>
+      DirectoryIndex index.html index.php
+    </IfModule>
+  </Directory>
+</VirtualHost>
+
+
+
+
+
+CREATE USER 'qa_user'@'%' IDENTIFIED BY 'jMwqK0Iq6ex8';
+
+GRANT ALL ON wallet_uat.* TO 'qa_user'@'%';
+
+
+
+FLUSH PRIVILEGES;
+
+
+
+Z2lybmFyLW5hZ2lvc0AkUDBwJjY2Z0lidkQ=
+
+
+
+brokerage-renewal-service
+
+
+
+
+
+
+user: "yugant.kumar"
+pwd:  "987TYGqfkfpqtw8I9"
+
+
+
+
+
+
+db.createUser(
+{ 
+ user: "ayush.gupta1",
+ pwd:  "Hwt38UIpjehjd9",
+ roles:
+ [
+ { role:"read",db:"ifm-transaction"} 
+ ] } );
+
+
+
+
+
+PG_HOST=172.50.3.122 \
+           --env  PG_PORT=5432 \
+           --env  PG_USER=bp_user \
+           --env  PG_PASSWORD=<********> \
+           --env  PG_SSL=false \
+
+
+
+
+ 
+ 
+
+
+
+
+
+docker rm -f $(docker ps -a -q)
+docker system prune -f 
+
+
+- curl -s 'https://github.com/InfoSec812/sonar-auth-google/releases/download/untagged-b38ce896a2ef581af1ee/sonar-auth-googleoauth-plugin-1.6.4-SNAPSHOT.jar'  --output
+          /data/sonar_google_auth.jar -v
+          
+- curl -s 'https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.16.0/jmx_prometheus_javaagent-0.16.0.jar'  --output
+          /data/jmx_prometheus_javaagent.jar -v
+
+az mysql flexible-server upgrade --name devbmt --resource-group beemamarket-dev --subscription 1430f4f6-d472-4be2-a4d9-363f24eab8e3 --version 8
+
+
+
+http://stage-cubeapm:4317
+
+
+http://prod-analytics-melorra-scrapper-selenium-srv:4444
+
+
+
+
+ Sonarqube:- 
+ ID:-
+17803735828-75c52aec5949vo8gjrdlqnro1j9j147o.apps.googleusercontent.com
+
+secret:- 
+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
+
+
+
+8abaab46243403e6e9d06be5128d2d9bFFFFNRAL new-relic
+
+
+3306 connectivity
+active connection (slave, master,reporting) 
+on slave replication status (lag monitoring)
+long query 
+
+Graylog:- 
+long query available (alerts ), [mongo/mysql/rds]
+access logs.
+docker logs 
+
+Grafana: 
+1.) app-monitoring (pods) & alerting (HPA/containre-restart etc)
+2.) node-exporter(EC2) & alerting. 
+3.) Cluster(EKS, ASG,)
+4.) DB dashboards(MYSQL/MONGO/ES/REDIS/RMQ/NIFI/AIRFLOW), & alerting
+	
+
+
+
+Mongo:- 
+Port
+slow-query enable
+replication
+
+
+
+%s/gibpl-nifi/gibpl-airflow/g
+
+
+for i in {1..100} ; do
+  echo ' -o /dev/null https://healthcrmstaging.insurancedekho.com/ -:'
+done | xargs curl -s
+
+
+
+
+
+1. IFM stage
+2. Sheet
+
+
+
+mongodump --host 172.50.4.241  --authenticationDatabase admin --username mongo-admin --password Kk3QBPuwYlf1 -d brokerage  --collection issued_policy_cases --out /dumpissue
+
+
+mongorestore  --host 172.50.3.197 -u mongo-admin -p mongoAmerica123 --authenticationDatabase admin -d brokerage --collection issued_policy_cases /dumpissue/brokerage/issued_policy_cases.bson
+
+
+
+
+
+
+
+
+
+
+
+docker rm -f b2c-health-lms-config-prod || : && docker run -dp 8000:8000 --restart on-failure --log-opt max-size=100m --health-interval 2s --health-retries 2 --health-timeout 10s   --env-file /root/app/temp-app/backend/.env    --name tempapp-beackend beemamarketdev.azurecr.io/backend:3894a34f
+
+
+
+
+
+docker run -d  -p 8000:8000 --restart on-failure --log-opt max-size=100m --health-interval 2s --health-retries 2 --health-timeout 10s  --name tempapp-beackend df4
+
+
+
+
+curl -u elastic:elasticp@ssw0rd -X POST "localhost:9200/_security/user/gpt_bot" -H 'Content-Type: application/json' -d'{
+  "password" : "r4nd0mp@ssw0rd",
+  "roles" : [ "admin", "superuser" ],
+  "full_name" : "gpt_bot",
+  "metadata" : {
+    "intelligence" : 7
+  }
+}'
+'
+
+
+
+curl -X POST "localhost:9200/_security/user/jacknich?pretty" -H 'Content-Type: application/json' -d'
+{
+  "password" : "l0ng-r4nd0m-p@ssw0rd",
+  "roles" : [ "admin", "other_role1" ],
+  "full_name" : "Jack Nicholson",
+  "email" : "jacknich@example.com",
+  "metadata" : {
+    "intelligence" : 7
+  }
+}
+'
+
+
+	
+	        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 4020
+            scheme: HTTP
+          initialDelaySeconds: 500
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 4
+        name: stage-b2c-seoapi-srv
+        ports:
+        - containerPort: 4020
+          protocol: TCP
+        - containerPort: 50000
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 4020
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 2
+          timeoutSeconds: 4
+
+
+
+
+
+
+{"auths":{"https://index.docker.io/v1/":{"username":"mtxlogix","password":"Yogesh@268","email":"devs@mtmlogix.com","auth":"bXR4bG9naXg6WW9nZXNoQDI2OA=="}}}
+
+
+
+
+
+
+
+db.createUser(
+{ 
+ user: "arjun.sharma",
+ pwd:  "63SwFBCyGE.1Zcpp29X6",
+ roles:
+ [
+ { role:"read",db:"kyc"} 
+ ] } );
+
+
+
+
+
+
+Hotel:- 
+private-trnasfer,north sightseening,Hotel:- 5000
+
+
+10,171
+
+
+
+for i in `kubectl  get po -o wide |grep 0/1 | awk '{print $1}'` ; do echo "" ; kubectl delete po $i --force --grace-period=0 ; done
+
+if [[ $env_name == "stage"  ]]; then
+    mv $WORKSPACE/env.staging $WORKSPACE/.env.staging
+else
+    mv $WORKSPACE/env.$env_name $WORKSPACE/.env.$env_name
+fi
+
+
+
+
+Please update the .env file with the appropriate values.
+
+
+
+
+
+
+
+
+
+
+aws elbv2 describe-rules --listener-arn arn:aws:elasticloadbalancing:ap-south-1:845742683201:listener/app/insurancedekho-local/383aee14356c3514/d9c4e9726ba36271  --query 'Rules[*].{HostHeader:Conditions[?Field==`host-header`].Values[0], Rules:RuleArn}' --output table | sed 's/\"\[//g;s/\]\"//g' > rule_list.csv
+
+
+
+aws elbv2 describe-rules --listener-arn arn:aws:elasticloadbalancing:ap-south-1:845742683201:listener/app/insurancedekho-local/383aee14356c3514/d9c4e9726ba36271 --query 'Rules[*].{HostHeaders:Conditions[?Field==`host-header`].Values[]}' --output table | sed 's/\"\[//g;s/\]\"//g' > rule_list.csv
+
+
+
+
+
+
+
+
+
+
+
+
+IAM user name:- 
+ses-smtp-user.itms-grid
+	
+SMTP user name:- 
+AKIA4J2RRGRA4FPHXVWR
+
+SMTP password:- 
+BECgyonDji86FD4GH6OnJI0PwyC0egF83c3b0eDQJDan
+
+
+
+
+
+
+
+
+SELECT table_schema AS "pos_payment_service", 
+ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS "Size (MB)" 
+FROM information_schema.TABLES 
+GROUP BY table_schema;
+
+
+
+
+
+pos_payment_service:jPPos88HGinG@172.10.7.66
+
+kubectl get namespace "ingress-nginx" -o json \
+  | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" \
+  | kubectl replace --raw /api/v1/namespaces/ingress-nginx/finalize -f -
+
+
+
+
+
+
+
+
+
+
+https://jenkins-v1.insurancedekho.com/view/automation/job/automation-aws-reset-password-access/
+
+
+if [ $? -eq 0 ]; then
+    
+     password="$(openssl rand -base64 14)"
+     ssh deployer@172.50.4.178 "aws iam update-login-profile --user-name $USER_NAME --password $password";
+     ssh deployer@172.50.4.178 "echo 'Password: $password' >> new-password.txt";
+     ssh deployer@172.50.4.178 "cat /var/lib/jenkins/mails/aws-reset-mail.txt | (cat - && uuencode new-password.txt  new-password.txt) | /sbin/ssmtp $dev_email,devops@insurancedekho.com";
+     ssh deployer@172.50.4.178 "rm -rf new-password.txt";
+else
+    # If the exit status is non-zero (failure), print the output in red
+    echo -e "\033[31m${kubectl_output}\033[0m"
+    #exit 1
+fi
+
+password="$(openssl rand -base64 14)"
+ssh deployer@172.50.4.178 "aws iam update-login-profile --user-name $USER_NAME --password $password";
+ssh deployer@172.50.4.178 "echo 'Password: $password' >> new-password.txt";
+ssh deployer@172.50.4.178 "cat /var/lib/jenkins/mails/aws-reset-mail.txt | (cat - && uuencode new-password.txt  new-password.txt) | /sbin/ssmtp $dev_email,devops@insurancedekho.com";
+ssh deployer@172.50.4.178 "rm -rf new-password.txt";
+
+
+
+vishad.gohel
+
+
+
+CREATE USER 'vishad.gohel'@'%' IDENTIFIED BY 'Rtfe9tgT5ujY8';
+GRANT central_report_pi_restricted TO 'vishad.gohel'@'%';
+SET DEFAULT ROLE central_report_pi_restricted FOR 'vishad.gohel'@'%';
+
+GRANT SELECT ON `central_report`.`vymo_call_logs` TO `central_report_pi_restricted`;
+
+
+
+SELECT table_name AS "Table", ROUND(((data_length + index_length) / 1024 / 1024 / 1024), 2) AS "Size (GB)" FROM information_schema.TABLES WHERE table_schema = "ilms" ORDER BY (data_length + index_length) DESC;
+
+
+SELECT table_schema AS "Database",
+       ROUND(SUM(data_length + index_length) / 1024 / 1024 / 1024, 2) AS "Size (GB)"
+FROM information_schema.TABLES
+WHERE table_schema = 'support_email'
+GROUP BY table_schema;
+
+
+
+
+issue middleware and central report db
+
+nagios hostgroup
+azure create all resources
+
+
+
+
+
+
+
+
+
+
+
+
+
+
